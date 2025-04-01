@@ -1,5 +1,10 @@
 # Adatbázis és Projekt Beállítása  
 
+## Lehetséges hibák:
+# EF Tools --> Javítva!
+- Nem látja a CMD a `dotnet ef` parancsot
+- Megoldás : ki kell törölni az létrehozni kívánt projektet, újranyitni a CMD-t, majd újból megcsinálni
+
 ## 0.: Adatbázis létrehozása a feladatban megadott scripttel  
 
 ## 0.1. `start.bat` módosítása  

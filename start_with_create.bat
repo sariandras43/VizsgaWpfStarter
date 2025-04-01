@@ -10,16 +10,16 @@ dotnet sln %projectName%.sln add %projectName%.csproj
 
 echo A WPF projekt letrejott es hozza lett adva a solutionhoz.
 
-set connectionString=Server=localhost;Database=%dbName%;Uid=root;Pwd=;
-
-
 dotnet tool install --global dotnet-ef --version 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore -v 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore.Design -v 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore.Tools -v 8.0.11
 dotnet add package MySql.EntityFrameworkCore -v 8.0.11
 
-dotnet ef dbcontext scaffold "%connectionString%" MySql.EntityFrameworkCore --output-dir Data
+set CURRENT_DIR=%CD%
+cd /d %CURRENT_DIR%
+
+dotnet ef dbcontext scaffold "Server=localhost;Database=%dbName%;Uid=root;Pwd=;" MySql.EntityFrameworkCore --output-dir Data
 
 echo A scaffold parancs lefutott.
 
@@ -68,7 +68,6 @@ for %%A in ("a=A" "b=B" "c=C" "d=D" "e=E" "f=F" "g=G" "h=H" "i=I" "j=J" "k=K" "l
 set "upperFirst=!map_%firstChar%!"
 if not defined upperFirst set "upperFirst=%firstChar%"
 set "dbUpper=!upperFirst!!dbName:~1!"
-echo Capitalized: !dbUpper!
 
 echo A DbContextek cserelese folyamatban a Database.cs fajlban...
 powershell -Command "(Get-Content 'Database.cs') -replace 'new AppContext', 'new %dbUpper%Context' | Set-Content 'Database.cs'"
