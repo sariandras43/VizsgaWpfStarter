@@ -10,7 +10,6 @@ dotnet sln %projectName%.sln add %projectName%.csproj
 
 echo A WPF projekt letrejott es hozza lett adva a solutionhoz.
 
-dotnet tool install --global dotnet-ef --version 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore -v 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore.Design -v 8.0.11
 dotnet add package Microsoft.EntityFrameworkCore.Tools -v 8.0.11
@@ -47,18 +46,18 @@ if exist "..\Database.cs" (
 )
 
 echo A namespacek cserelese folyamatban a MainWindow.xaml fajlban...
-powershell -Command "(Get-Content 'MainWindow.xaml') -replace 'VizsgaWpfStarter.MainWindow', '%projectName%.MainWindow' | Set-Content 'MainWindow.xaml'"
-powershell -Command "(Get-Content 'MainWindow.xaml') -replace 'clr-namespace:VizsgaWpfStarter', 'clr-namespace:%projectName%' | Set-Content 'MainWindow.xaml'"
+powershell -Command "(Get-Content 'MainWindow.xaml') -replace 'VizsgaWpfStarter.MainWindow', '%projectName%.MainWindow' | Set-Content 'MainWindow.xaml' -Encoding utf8"
+powershell -Command "(Get-Content 'MainWindow.xaml') -replace 'clr-namespace:VizsgaWpfStarter', 'clr-namespace:%projectName%' | Set-Content 'MainWindow.xaml' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a MainWindow.xaml fajlban.
 
 
 
 echo A namespacek, importok cserelese folyamatban a MainWindow.xaml.cs fajlban...
-powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'VizsgaWpfStarter', '%projectName%' | Set-Content 'MainWindow.xaml.cs'"
+powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'VizsgaWpfStarter', '%projectName%' | Set-Content 'MainWindow.xaml.cs' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a MainWindow.xaml.cs fajlban.
 
 echo A namespacek, importok cserelese folyamatban a Database.cs fajlban...
-powershell -Command "(Get-Content 'Database.cs') -replace 'VizsgaWpfStarter', '%projectName%' | Set-Content 'Database.cs'"
+powershell -Command "(Get-Content 'Database.cs') -replace 'VizsgaWpfStarter', '%projectName%' | Set-Content 'Database.cs' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a Database.cs fajlban.
 
 set "firstChar=!dbName:~0,1!"
@@ -70,11 +69,11 @@ if not defined upperFirst set "upperFirst=%firstChar%"
 set "dbUpper=!upperFirst!!dbName:~1!"
 
 echo A DbContextek cserelese folyamatban a Database.cs fajlban...
-powershell -Command "(Get-Content 'Database.cs') -replace 'new AppContext', 'new %dbUpper%Context' | Set-Content 'Database.cs'"
-powershell -Command "(Get-Content 'Database.cs') -replace 'static AppContext', 'static %dbUpper%Context' | Set-Content 'Database.cs'"
+powershell -Command "(Get-Content 'Database.cs') -replace 'new AppContext', 'new %dbUpper%Context' | Set-Content 'Database.cs' -Encoding utf8"
+powershell -Command "(Get-Content 'Database.cs') -replace 'static AppContext', 'static %dbUpper%Context' | Set-Content 'Database.cs' -Encoding utf8"
 echo A DbContextek cserelese sikeres volt a Database.cs fajlban.
 
 echo A DbContextek cserelese folyamatban a MainWindow.xaml.cs fajlban...
-powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'private AppContext', 'private %dbUpper%Context' | Set-Content 'MainWindow.xaml.cs'"
+powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'private AppContext', 'private %dbUpper%Context' | Set-Content 'MainWindow.xaml.cs' -Encoding utf8"
 
 cd ..
