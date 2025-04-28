@@ -9,13 +9,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VizsgaWpfStarter.Data;
+using BetterBinding;
 
 namespace VizsgaWpfStarter
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private AppContext context = Database.GetAppContext();
         public List<Model1> ListOfModel1 { get; set; } = new();
@@ -36,5 +37,10 @@ namespace VizsgaWpfStarter
 
         }
         
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        static MainWindow(){
+            AutoBinder.PatchAll();
+        }
     }
 }
