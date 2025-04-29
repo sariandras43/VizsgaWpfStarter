@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VizsgaWpfStarter.Data;
 using BetterBinding;
+using System.ComponentModel;
 
 namespace VizsgaWpfStarter
 {
@@ -40,7 +41,7 @@ namespace VizsgaWpfStarter
         public event PropertyChangedEventHandler PropertyChanged;
         
         static MainWindow(){
-            AutoBinder.PatchAll();
+            AutoBinder.PatchAll<MainWindow>();
         }
     }
 }
