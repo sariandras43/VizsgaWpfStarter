@@ -9,7 +9,7 @@ dotnet new wpf -n "%projectName%GUI"
 cd %projectName%
 mkdir "Dependencies"
 copy "..\BetterBindingLibrary.dll" "Dependencies\BetterBindingLibrary.dll"
-dotnet add reference "Dependencies\BetterBindingLibrary.dll"
+powershell -ep Bypass -c "(Get-Content %projectName%.csproj) -replace '</Project>','<ItemGroup><Reference Include=""BetterBindingLibrary""""><HintPath>Dependencies\BetterBindingLibrary.dll</HintPath></Reference></ItemGroup></Project>' | Set-Content %projectName%.csproj"
 
 dotnet new sln -n %projectName% 
 dotnet sln %projectName%.sln add %projectName%.csproj
@@ -18,7 +18,7 @@ dotnet sln %projectName%.sln add "..\%projectName%GUI\%projectName%GUI.csproj"
 cd "..\%projectName%GUI"
 mkdir "Dependencies"
 copy "..\BetterBindingLibrary.dll" "Dependencies\BetterBindingLibrary.dll"
-dotnet add reference "Dependencies\BetterBindingLibrary.dll"
+powershell -ep Bypass -c "(Get-Content %projectName%GUI.csproj) -replace '</Project>','<ItemGroup><Reference Include=""BetterBindingLibrary""""><HintPath>Dependencies\BetterBindingLibrary.dll</HintPath></Reference></ItemGroup></Project>' | Set-Content %projectName%GUI.csproj"
 
 echo A WPF és konzolos projekt letrejott es hozza lett adva a solutionhoz.
 

@@ -7,7 +7,7 @@ dotnet new wpf -n %projectName%
 cd %projectName%
 mkdir "Dependencies"
 copy "..\BetterBindingLibrary.dll" "Dependencies\BetterBindingLibrary.dll"
-dotnet add reference "Dependencies\BetterBindingLibrary.dll"
+powershell -ep Bypass -c "(Get-Content %projectName%.csproj) -replace '</Project>','<ItemGroup><Reference Include=""BetterBindingLibrary""""><HintPath>Dependencies\BetterBindingLibrary.dll</HintPath></Reference></ItemGroup></Project>' | Set-Content %projectName%.csproj"
 
 dotnet new sln -n %projectName% 
 dotnet sln %projectName%.sln add %projectName%.csproj
