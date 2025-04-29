@@ -83,5 +83,7 @@ powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'private AppCon
 
 cd ..
 
+add_binding_all.bat "%projectName%/Data";
+
 echo Kész!
 pause
