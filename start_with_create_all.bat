@@ -1,10 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
 set /p projectName="Add meg a konzolos projekt nevet: "
+set /p wpfProjectName="Add meg a WPF projekt nevet: "
 set /p dbName="Add meg az adatbazis nevet: "
 
 dotnet new console -n %projectName%
-dotnet new wpf -n "%projectName%GUI"
+dotnet new wpf -n "%wpfProjectName%"
 
 cd %projectName%
 mkdir "Dependencies"
@@ -13,12 +14,12 @@ powershell -ep Bypass -c "(Get-Content %projectName%.csproj) -replace '</Project
 
 dotnet new sln -n %projectName% 
 dotnet sln %projectName%.sln add %projectName%.csproj
-dotnet sln %projectName%.sln add "..\%projectName%GUI\%projectName%GUI.csproj"
+dotnet sln %projectName%.sln add "..\%wpfProjectName%\%wpfProjectName%.csproj"
 
-cd "..\%projectName%GUI"
+cd "..\%wpfProjectName%"
 mkdir "Dependencies"
 copy "..\BetterBindingLibrary.dll" "Dependencies\BetterBindingLibrary.dll"
-powershell -ep Bypass -c "(Get-Content %projectName%GUI.csproj) -replace '</Project>','<ItemGroup><Reference Include=""BetterBindingLibrary""""><HintPath>Dependencies\BetterBindingLibrary.dll</HintPath></Reference></ItemGroup></Project>' | Set-Content %projectName%GUI.csproj"
+powershell -ep Bypass -c "(Get-Content %wpfProjectName%.csproj) -replace '</Project>','<ItemGroup><Reference Include=""BetterBindingLibrary""""><HintPath>Dependencies\BetterBindingLibrary.dll</HintPath></Reference></ItemGroup></Project>' | Set-Content %wpfProjectName%.csproj"
 
 echo A WPF és konzolos projekt letrejott es hozza lett adva a solutionhoz.
 
@@ -56,18 +57,18 @@ if exist "..\Database.cs" (
 )
 
 echo A namespacek cserelese folyamatban a MainWindow.xaml fajlban...
-powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml') -replace 'VizsgaWpfStarter.MainWindow', '%projectName%GUI.MainWindow' | Set-Content 'MainWindow.xaml' -Encoding utf8"
-powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml') -replace 'clr-namespace:VizsgaWpfStarter', 'clr-namespace:%projectName%GUI' | Set-Content 'MainWindow.xaml' -Encoding utf8"
+powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml') -replace 'VizsgaWpfStarter.MainWindow', '%wpfProjectName%.MainWindow' | Set-Content 'MainWindow.xaml' -Encoding utf8"
+powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml') -replace 'clr-namespace:VizsgaWpfStarter', 'clr-namespace:%wpfProjectName%' | Set-Content 'MainWindow.xaml' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a MainWindow.xaml fajlban.
 
 
 
 echo A namespacek, importok cserelese folyamatban a MainWindow.xaml.cs fajlban...
-powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'VizsgaWpfStarter', '%projectName%GUI' | Set-Content 'MainWindow.xaml.cs' -Encoding utf8"
+powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'VizsgaWpfStarter', '%wpfProjectName%' | Set-Content 'MainWindow.xaml.cs' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a MainWindow.xaml.cs fajlban.
 
 echo A namespacek, importok cserelese folyamatban a Database.cs fajlban...
-powershell -ep Bypass -Command "(Get-Content 'Database.cs') -replace 'VizsgaWpfStarter', '%projectName%GUI' | Set-Content 'Database.cs' -Encoding utf8"
+powershell -ep Bypass -Command "(Get-Content 'Database.cs') -replace 'VizsgaWpfStarter', '%wpfProjectName%' | Set-Content 'Database.cs' -Encoding utf8"
 echo A namespacek cserelese sikeres volt a Database.cs fajlban.
 
 set "firstChar=!dbName:~0,1!"
@@ -88,7 +89,7 @@ powershell -ep Bypass -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'pri
 
 cd ..
 
-add_binding_all.bat "%projectName%GUI/Data";
+add_binding_all.bat "%wpfProjectName%/Data";
 
 echo Kész!
 pause
