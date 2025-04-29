@@ -87,3 +87,6 @@ echo A DbContextek cserelese folyamatban a MainWindow.xaml.cs fajlban...
 powershell -Command "(Get-Content 'MainWindow.xaml.cs') -replace 'private AppContext', 'private %dbUpper%Context' | Set-Content 'MainWindow.xaml.cs' -Encoding utf8"
 
 cd ..
+
+echo Kész!
+pause

@@ -14,3 +14,5 @@ cd /d %CURRENT_DIR%
 
 dotnet ef dbcontext scaffold "%connectionString%" MySql.EntityFrameworkCore --output-dir Data
 echo A scaffold parancs lefutott.
+
+pause
