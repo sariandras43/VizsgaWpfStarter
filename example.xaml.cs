@@ -25,20 +25,11 @@ namespace VizsgaWpfStarter
         public Pilot SelectedPilot { get; set; }
         private Pilot newPilot = new Pilot();
 
-        public Pilot NewPilot
-        {
-            get { return newPilot; }
-            set { newPilot = value; OnPropertyChanged(nameof(NewPilot)); }
-        }
+        public Pilot NewPilot {get; set;}
 
         public List<string> Genders { get; set; } = new List<string>() { "M", "F" };
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string tulajdonsagNev)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(tulajdonsagNev));
-        }
 
         public MainWindow()
         {
