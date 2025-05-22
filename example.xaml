@@ -6,25 +6,59 @@
         xmlns:local="clr-namespace:VizsgaWpfStarter"
         mc:Ignorable="d"
         Title="FoAblakSzoveg" Height="450" Width="800" FontSize="16">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-        <ListBox Grid.Row="0" Grid.Column="0" Name="listBox"></ListBox>
-        <Grid Grid.Row="0" Grid.Column="1" Name="gridDetails">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="12*"/>
-            </Grid.RowDefinitions>
-
-            <Label Content="Meghirdetett utak" Grid.Row="0"/>
-            <ComboBox Grid.Row="1" Name="comboBoxDetails"></ComboBox>
-            <ScrollViewer Grid.Row="2">
-                <TextBox Name="textBlockDescription" Text="{Binding Description}" TextWrapping="WrapWithOverflow" IsReadOnly="True"/>
-            </ScrollViewer>
-
-        </Grid>
-    </Grid>
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Column="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5*" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<DataGrid Grid.Row="0" SelectionMode="Single" AutoGenerateColumns="False" IsReadOnly="True"
+				ItemsSource="{Binding Pilots}" SelectedItem="{Binding SelectedPilot}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Id" Width="Auto" Binding="{Binding Id}" />
+					<DataGridTextColumn Header="Név" Width="*" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="Nem" Width="Auto" Binding="{Binding Gender}" />
+					<DataGridTextColumn Header="Szül.dátum" Width="*"
+						Binding="{Binding Birthdate, StringFormat=yyyy.MM.dd}" />
+					<DataGridTextColumn Header="Nemzet" Width="*" Binding="{Binding Nation}" />
+				</DataGrid.Columns>
+			</DataGrid>
+			<Button Content="Töröl" Height="40" Width="150" Grid.Row="1"/>
+		</Grid>
+		<GroupBox Header="Új pilóta" Grid.Column="1" Height="230" VerticalAlignment="Top">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<Label Content="Név:" Grid.Row="0" VerticalAlignment="Center" />
+				<Label Content="Nem:" Grid.Row="1" VerticalAlignment="Center" />
+				<Label Content="Születési dátum:" Grid.Row="2" VerticalAlignment="Center" />
+				<Label Content="Nemzetiség" Grid.Row="3" VerticalAlignment="Center" />
+				<TextBox Grid.Row="0" Grid.Column="1" Height="30" Text="{Binding NewPilot.Name}"
+					VerticalContentAlignment="Center" />
+				<ComboBox Grid.Row="1" Grid.Column="1" Height="30" Width="100"
+					HorizontalAlignment="Left" SelectedItem="{Binding NewPilot.Gender}"
+					ItemsSource="{Binding Genders}" VerticalContentAlignment="Center" />
+				<DatePicker Grid.Row="2" Grid.Column="1" Height="30" Width="180"
+					HorizontalAlignment="Left" SelectedDate="{Binding NewPilot.Birthdate}"
+					VerticalContentAlignment="Center" />
+				<TextBox Grid.Row="3" Grid.Column="1" Height="30" Text="{Binding NewPilot.Nation}"
+					VerticalContentAlignment="Center" />
+				<Button x:Name="save_BTN" Content="Mentés" Height="40" Width="150" Grid.Row="4"
+					Grid.ColumnSpan="2"/>
+			</Grid>
+		</GroupBox>
+	</Grid>
 </Window>

@@ -17,31 +17,87 @@ namespace VizsgaWpfStarter
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private AppContext context = Database.GetAppContext();
-        public List<Model1> ListOfModel1 { get; set; } = new();
-        public List<Model2> ListOfModel2 { get; set; } = new();
+        AppContext context = Database.GetAppContext();
+        public ObservableCollection<Pilot> Pilots { get; set; }
+        public Pilot SelectedPilot { get; set; }
+        private Pilot newPilot = new Pilot();
 
+        public Pilot NewPilot
+        {
+            get { return newPilot; }
+            set { newPilot = value; OnPropertyChanged(nameof(NewPilot)); }
+        }
+
+        public List<string> Genders { get; set; } = new List<string>() { "M", "F" };
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string tulajdonsagNev)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(tulajdonsagNev));
+        }
 
         public MainWindow()
         {
-           InitializeComponent();
-
-           Loaded += (sender, e) => {
-               ListOfModel1 = context.Set<Model1>().ToList();
-               ListOfModel2 = context.Set<Model2>().ToList();
-
-               listBox.ItemsSource = ListOfModel1;
-               listBox.DisplayMemberPath = "Name";
-           };
-
+            InitializeComponent();
+            this.DataContext = this;
+            context.Pilots.Load();
+            Pilots = context.Pilots.Local.ToObservableCollection();
         }
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        
         static MainWindow(){
             AutoBinder.PatchAll<MainWindow>();
         }
+
+        private void del_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            if(SelectedPilot != null)
+            {
+                MessageBoxResult result = MessageBox.Show($"Biztosan törölni kívánja a(z) {SelectedPilot.Name} nevű pilótát?", "Megerősítés", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(result == MessageBoxResult.Yes)
+                {
+                    Pilots.Remove(SelectedPilot);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private void save_BTN_Click(object sender, RoutedEventArgs e)
+        {
+            if (InputCheck())
+            {
+                Pilots.Add(NewPilot);
+                context.SaveChanges();
+                NewPilot = new Pilot();
+            }
+        }
+
+        private bool InputCheck()
+        {
+            if (String.IsNullOrWhiteSpace(NewPilot.Name))
+            {
+                MessageBox.Show("A név mező kitöltése kötelező", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(NewPilot.Gender))
+            {
+                MessageBox.Show("A nem mező kitöltése kötelező", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if(NewPilot.Birthdate == null || NewPilot.Birthdate >= DateTime.Now)
+            {
+                MessageBox.Show("A születési dátum mező kitöltése kötelező", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(NewPilot.Nation))
+            {
+                MessageBox.Show("A nemzet mező kitöltése kötelező", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
+        }
+
     }
 }
