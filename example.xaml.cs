@@ -23,7 +23,6 @@ namespace VizsgaWpfStarter
         AppContext context = Database.GetAppContext();
         public ObservableCollection<Pilot> Pilots { get; set; }
         public Pilot SelectedPilot { get; set; }
-        private Pilot newPilot = new Pilot();
 
         public Pilot NewPilot {get; set;}
 
