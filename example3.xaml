@@ -1,0 +1,53 @@
+<Window x:Class="Eszaki_kozephegyseg_kilatoi_GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eszaki_kozephegyseg_kilatoi_GUI"
+        mc:Ignorable="d"
+        Title="Északi középhegység kilátói" Background="Azure" Height="660" Width="800" MinWidth="800" MinHeight="660" FontSize="16">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Északi középhegység kilátói" HorizontalContentAlignment="Center"
+               Background="CornflowerBlue" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Label Content="Helységek:" FontWeight="Bold" Margin="0,0,0,10"/>
+            <ListBox Name="listBox" Margin="5" SelectionChanged="listBox_SelectionChanged"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Content="Kilátók:" FontWeight="Bold" Margin="0,0,0,10"/>
+            <DataGrid Name="dataGrid" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Filtered}" SelectedItem="{Binding SelectedViewpoint}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Megnevezés" Width="2*" Binding="{Binding ViewpointName}"/>
+                    <DataGridTextColumn Header="Hegy" Width="2*" Binding="{Binding Mountain}"/>
+                    <DataGridTextColumn Header="Magasság" Width="*" Binding="{Binding Height}"/>
+                    <DataGridTextColumn Header="Épült" Width="*" Binding="{Binding Built, StringFormat=yyyy.MM.dd}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label Content="Leírás:" FontWeight="Bold"/>
+            <Grid DataContext="{Binding SelectedViewpoint}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" Grid.Column="0" Text="{Binding Description}"/>
+                <Image HorizontalAlignment="Left" Margin="10" Grid.Column="1" Source="{Binding ImageUrl}" Width="200" Height="300"/>
+            </Grid>
+
+        </StackPanel>
+
+
+        <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Készítette: Sári András" HorizontalContentAlignment="Center"
+               Background="CornflowerBlue" Foreground="White" FontStyle="Italic" VerticalContentAlignment="Center" Padding="0"/>
+    </Grid>
+</Window>
